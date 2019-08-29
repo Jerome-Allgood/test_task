@@ -82,6 +82,5 @@ class Reserved(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    date = models.DateTimeField()
     preorder = models.OneToOneField(PreOrder, on_delete=models.CASCADE)
     comment = models.TextField(max_length=1000, null=True)
