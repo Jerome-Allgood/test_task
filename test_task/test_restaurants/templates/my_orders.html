@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+{% block title %}My orders{% endblock %}
+{% block content %}
+  <h2 class="text-center">My orders</h2>
+  <div class="card w-50 container my-5">
+    <div class="card-body text-dark">
+      {% if pre_orders %}
+        <h4>Waiting for confirmation:</h4>
+        {% for order in pre_orders %}
+          <p>{{ order.user }} - {{ order.restaurant }}</p>
+        {% endfor %}
+      {% else %}
+        <h4>No new orders to confirm.</h4>
+      {% endif %}
+
+      {% if reserves %}
+        <h4>Confirmed orders:</h4>
+        {% for reserve in reserves %}
+          <p>{{ reserve.user }} - {{ reserve.restaurant }}</p>
+        {% endfor %}
+      {% else %}
+        <h4>There is no confirmed orders yet.</h4>
+      {% endif %}
+      <a href="/profile/" class="btn btn-success">Back to profile</a>
+    </div>
+  </div>
+{% endblock %}

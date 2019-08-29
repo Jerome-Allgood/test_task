@@ -1,0 +1,35 @@
+{% extends 'home.html' %}
+{% block title %}
+  {{ object.name }}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="card text-center">
+      <div class="card-header">{{ object.name }}</div>
+      <div class="card-body">
+        <h5 class="card-title">{{ object.phone }}</h5>
+        <h5 class="card-title">{{ object.email }}</h5>
+        <p class="card-text">{{ object.description }}</p>
+        {% if user.is_superuser %}
+          <form method="get" action="/create-preorder/">
+            <input type="hidden" name="restaurant" value="{{ object.id }}">
+            <button type="submit" class="btn btn-success">Create preorder
+            </button>
+          </form>
+          <form method="get" action="/create-reserve/">
+            <input type="hidden" name="restaurant" value="{{ object.id }}">
+            <button type="submit" class="btn btn-success my-4">Create reserve
+            </button>
+          </form>
+        {% else %}
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="restaurant" value="{{ object.id }}">
+            <button type="submit" class="btn btn-success my-4">Order</button>
+          </form>
+        {% endif %}
+        <a href="/" class="btn btn-success">Back</a>
+      </div>
+    </div
+  </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+{% block title %}Registration form{% endblock %}
+{% block content %}
+  <h2 class="text-center">Registration</h2>
+  <p class="text-center">Fill the form below to create new user</p>
+  {% if error %}
+    <h5 class="text-center text-danger">User with this email already
+      exists.</h5>
+    <p class="text-center"> You can login <a
+        class="badge badge-success" href="/login/">here</a>.
+    </p>
+  {% endif %}
+  <div class="card w-50 container my-5">
+    <div class="card-body text-dark">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-success" type="submit" value="Create">
+      </form>
+    </div>
+  </div>
+{% endblock %}

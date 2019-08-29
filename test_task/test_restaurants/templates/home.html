@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Restaurants</a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      </ul>
+      <ul class="navbar-nav mr-3">
+        {% if user.is_authenticated %}
+          <li class="nav-item nav-link">{{ user }}</li>
+          {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link" href="/preorders/">Pre-orders</a>
+            <li class="nav-item">
+            <a class="nav-link" href="/reserves/">Reserves</a>
+          {% endif %}
+          <li class="nav-item"><a class="nav-link" href="/profile/">Profile</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/logout/">Log Out</a>
+          </li>
+
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="/login/">Log In</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+
+{% block content %}
+  <div class="container my-5">
+    <div class="row">
+      {% for restaurant in restaurant_list %}
+        <div class="col-sm-4">
+          <div class="card border-success mb-3">
+            <div class="card-header text-center">{{ restaurant.name }}</div>
+            <div class="card-body text-success">
+              <h5 class="card-title">{{ restaurant.phone }}</h5>
+              <h5 class="card-title">{{ restaurant.email }}</h5>
+              <p>Pre-orders: {{ restaurant.preorder_set.count }}</p>
+              <p>Reserves: {{ restaurant.reserved_set.count }}</p>
+              <a class="btn btn-success" href="/restaurants/{{ restaurant.id }}"
+                 role="button">More info</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}
+</body>
+</html>

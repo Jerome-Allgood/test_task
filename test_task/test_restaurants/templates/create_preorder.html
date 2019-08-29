@@ -1,0 +1,19 @@
+{% extends 'home.html' %}
+{% block title %}All orders{% endblock %}
+{% block content %}
+
+  <h2 class="text-center">All orders</h2>
+  <div class="card w-50 container my-5">
+    <div class="card-body text-dark text-center">
+      <form method="post">
+        {% csrf_token %}
+        <h5>New user:</h5>
+        {{ form }}
+        <h5>Choose restaurant:</h5>
+        {{ restaurant_form }}
+        <button type="submit" class="btn btn-success my-4">Create preorder</button>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "home.html" %}
+{% block title %}Log In{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2 class="text-center">Log In</h2>
+    <p class="text-center">Please, use the following form to log-in:</p>
+    <div class="card w-50 container my-5">
+      <div class="card-body text-dark">
+        <form action="." method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group">
+              <label for="inputLabel">{{ field.label_tag }}</label>
+              {{ field }}
+            </div>
+          {% endfor %}
+          <input class="btn btn-success" type="submit" value="Log In">
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

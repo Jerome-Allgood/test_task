@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+  <h2 class="text-center">Personal information</h2>
+  <div class="card w-50 container my-5">
+    <div class="card-body text-dark">
+      {% if user.is_authenticated %}
+        <h4>E-mail: {{ user.email }}</h4>
+        <h4>First name: {{ user.first_name }}</h4>
+        <h4>Last name: {{ user.last_name }}</h4>
+        <h4>Phone: {{ user.phone }}</h4>
+        <a class="btn btn-success btn-lg" href="update-profile/{{ user.id }}">Update
+          profile</a>
+        <a class="btn btn-success btn-lg" href="my-orders/">My orders</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+{% block title %}All reserves{% endblock %}
+{% block content %}
+
+  <h2 class="text-center">All reserves</h2>
+  <div class="card w-50 container my-5">
+    <div class="card-body text-dark text-center">
+      {% if reserves %}
+        {% for reserve in reserves %}
+          <form method="post" class="my-3">
+            {% csrf_token %}
+            {{ reserve.user.first_name }} - {{ reserve.user.email }}
+            - {{ reserve.user.phone }} - {{ reserve.restaurant }}
+            <input
+                type="hidden" name="user" value="{{ reserve.user.id }}">
+            <input type="hidden" name="restaurant"
+                   value="{{ reserve.restaurant.id }}">
+            <input type="hidden" name="reserve_id"
+                   value="{{ reserve.id }}">
+            <button type="submit" class="btn btn-sm btn-success">Delete
+              reserve
+            </button>
+          </form>
+        {% endfor %}
+      {% else %}
+        <h4>There is no new reserves yet.</h4>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+{% block title %}All orders{% endblock %}
+{% block content %}
+
+  <h2 class="text-center">All orders</h2>
+  <div class="card w-50 container my-5">
+    <div class="card-body text-dark text-center">
+      {% if pre_orders %}
+        {% for pre_order in pre_orders %}
+          <form method="post">
+            {% csrf_token %}
+            {{ pre_order.user.first_name }} - {{ pre_order.user.email }}
+              - {{ pre_order.user.phone }} - {{ pre_order.restaurant }}
+              <input type="hidden" name="user" value="{{ pre_order.user.id }}">
+              <input type="hidden" name="restaurant"
+                     value="{{ pre_order.restaurant.id }}">
+              <input type="hidden" name="pre_order_id"
+                     value="{{ pre_order.id }}">
+              <button type="submit" class="btn btn-sm btn-success my-2">Confirm
+              </button>
+          </form>
+        {% endfor %}
+      {% else %}
+        <h4>There is no new pre-orders.</h4>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
