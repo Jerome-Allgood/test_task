@@ -60,6 +60,7 @@ class Restaurant(models.Model):
 
 
 class PreOrder(models.Model):
+    date = models.DateTimeField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
@@ -67,3 +68,6 @@ class PreOrder(models.Model):
 class Reserved(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    preorder = models.OneToOneField(PreOrder, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=1000, null=True)
