@@ -1,10 +1,8 @@
 from django.contrib.auth import logout, login, authenticate
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, DetailView, FormView, \
-    CreateView, DeleteView, UpdateView
-from rest_framework import generics
-
+from django.utils import timezone
+from django.views.generic import TemplateView, ListView, DetailView, FormView
 from .forms import SignupForm, LoginForm, UserForm, RestaurantForm
 from .models import Restaurant, CustomUser, PreOrder, Reserved
 
@@ -18,7 +16,7 @@ class RestaurantDetailView(DetailView):
     queryset = Restaurant.objects.all()
     template_name = 'restaurant_detail_view.html'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user = CustomUser.objects.get(id=request.user.id)
         restaurant = Restaurant.objects.get(id=request.POST['restaurant'])
         new_order = PreOrder.objects.create(
@@ -95,7 +93,10 @@ class AllOrders(ListView):
         restaurant = Restaurant.objects.get(id=request.POST['restaurant'])
         pre_order = PreOrder.objects.get(id=request.POST['pre_order_id'])
         pre_order.delete()
-        new_reserve = Reserved.objects.create(user=user, restaurant=restaurant)
+        new_reserve = Reserved.objects.create(
+            user=user,
+            restaurant=restaurant,
+            date=timezone.now())
         new_reserve.save()
         pre_orders = PreOrder.objects.all()
         return render(request, 'all_orders.html', {'pre_orders': pre_orders})
@@ -138,6 +139,8 @@ class CreatePreorder(FormView):
             new_user.save()
             new_preorder = PreOrder.objects.create(
                 user=new_user,
-                restaurant=restaurant_choice_form.cleaned_data['restaurant'])
+                restaurant=restaurant_choice_form.cleaned_data['restaurant'],
+                date=timezone.now()
+            )
             new_preorder.save()
             return render(request, 'all_orders.html')
