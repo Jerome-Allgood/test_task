@@ -54,6 +54,7 @@ class Restaurant(models.Model):
     phone = models.CharField(max_length=15)
     address = models.CharField(max_length=100)
     email = models.EmailField()
+    tables = models.PositiveIntegerField(default=10)
 
     def __str__(self):
         return f'{self.name}'
@@ -62,7 +63,8 @@ class Restaurant(models.Model):
 class PreOrder(models.Model):
     STATUS_CHOICES = (
         ('new', 'New'),
-        ('confirmed', 'Confirmed')
+        ('confirmed', 'Confirmed'),
+        ('declined', 'Declined')
     )
 
     date = models.DateTimeField()
