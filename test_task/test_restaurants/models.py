@@ -75,7 +75,7 @@ class PreOrder(models.Model):
                               default='new')
 
     def __str__(self):
-        return f'Preorder #{self.id}'
+        return f'Preorder #{self.id} - {self.status}'
 
 
 class Reserved(models.Model):

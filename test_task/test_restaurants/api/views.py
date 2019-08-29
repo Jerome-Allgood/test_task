@@ -19,4 +19,3 @@ class CreatePreorder(generics.CreateAPIView):
 
 class CreateReserve(generics.CreateAPIView):
     serializer_class = serializers.ReserveSerializer
-

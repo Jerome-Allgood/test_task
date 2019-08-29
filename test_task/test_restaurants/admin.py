@@ -33,9 +33,9 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(Reserved)
 class ReservedAdmin(admin.ModelAdmin):
-    list_display = ['id', 'restaurant', 'user']
+    list_display = ['id', 'restaurant', 'user', 'preorder']
 
 
 @admin.register(PreOrder)
 class PreOrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'restaurant', 'user']
+    list_display = ['id', 'restaurant', 'user', 'status']

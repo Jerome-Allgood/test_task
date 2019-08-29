@@ -98,7 +98,6 @@ class AllOrders(ListView):
         new_reserve = Reserved.objects.create(
             user=user,
             restaurant=restaurant,
-            date=timezone.now(),
             preorder=pre_order
         )
         new_reserve.save()
@@ -144,7 +143,6 @@ class CreatePreorder(FormView):
             new_preorder = PreOrder.objects.create(
                 user=new_user,
                 restaurant=restaurant_choice_form.cleaned_data['restaurant'],
-                date=timezone.now()
             )
             new_preorder.save()
             return render(request, 'all_orders.html')
