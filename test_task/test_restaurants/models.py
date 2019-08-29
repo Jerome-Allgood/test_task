@@ -67,7 +67,8 @@ class PreOrder(models.Model):
         ('declined', 'Declined')
     )
 
-    date = models.DateTimeField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES,
@@ -78,6 +79,7 @@ class PreOrder(models.Model):
 
 
 class Reserved(models.Model):
+    creation_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     date = models.DateTimeField()
