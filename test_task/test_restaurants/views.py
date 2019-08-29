@@ -92,11 +92,12 @@ class AllOrders(ListView):
         user = CustomUser.objects.get(id=request.POST['user'])
         restaurant = Restaurant.objects.get(id=request.POST['restaurant'])
         pre_order = PreOrder.objects.get(id=request.POST['pre_order_id'])
-        pre_order.delete()
         new_reserve = Reserved.objects.create(
             user=user,
             restaurant=restaurant,
-            date=timezone.now())
+            date=timezone.now(),
+            preorder=pre_order
+        )
         new_reserve.save()
         pre_orders = PreOrder.objects.all()
         return render(request, 'all_orders.html', {'pre_orders': pre_orders})

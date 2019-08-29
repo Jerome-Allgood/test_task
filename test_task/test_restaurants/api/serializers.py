@@ -13,3 +13,9 @@ class PreOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreOrder
         fields = '__all__'
+
+
+class ReserveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reserved
+        fields = '__all__'
