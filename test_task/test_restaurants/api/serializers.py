@@ -23,6 +23,8 @@ class ReserveSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         print(validated_data)
+        r = Restaurant.objects.get(preorder__reserved=1)
+        print(r)
         reserves = Reserved.objects.filter(
             restaurant=validated_data['restaurant']).filter(
             preorder=validated_data['preorder'])

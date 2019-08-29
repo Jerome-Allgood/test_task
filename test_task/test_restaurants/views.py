@@ -11,6 +11,11 @@ class HomeView(ListView):
     model = Restaurant
     template_name = 'home.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs) # get the default context data
+        context['reserves'] = Reserved.objects.all() # add extra field to the context
+        return context
+
 
 class RestaurantDetailView(DetailView):
     queryset = Restaurant.objects.all()
@@ -90,14 +95,10 @@ class AllOrders(ListView):
         return render(request, 'all_orders.html', {'pre_orders': pre_orders})
 
     def post(self, request):
-        user = CustomUser.objects.get(id=request.POST['user'])
-        restaurant = Restaurant.objects.get(id=request.POST['restaurant'])
         pre_order = PreOrder.objects.get(id=request.POST['pre_order_id'])
         pre_order.status = 'confirmed'
         pre_order.save()
         new_reserve = Reserved.objects.create(
-            user=user,
-            restaurant=restaurant,
             preorder=pre_order
         )
         new_reserve.save()
