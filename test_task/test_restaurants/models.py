@@ -69,7 +69,7 @@ class PreOrder(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES,
-                              default='planned')
+                              default='new')
 
     def __str__(self):
         return f'Preorder #{self.id}'

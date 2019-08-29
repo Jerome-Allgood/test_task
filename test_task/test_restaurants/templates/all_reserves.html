@@ -11,6 +11,7 @@
             {% csrf_token %}
             {{ reserve.user.first_name }} - {{ reserve.user.email }}
             - {{ reserve.user.phone }} - {{ reserve.restaurant }}
+            - {{ reserve.preorder }}
             <input
                 type="hidden" name="user" value="{{ reserve.user.id }}">
             <input type="hidden" name="restaurant"

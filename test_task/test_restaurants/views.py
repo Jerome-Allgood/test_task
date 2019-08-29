@@ -77,7 +77,8 @@ class ProfileView(TemplateView):
 class MyOrders(ListView):
 
     def get(self, request, *args, **kwargs):
-        pre_orders = PreOrder.objects.filter(user=request.user)
+        pre_orders = PreOrder.objects.filter(user=request.user).filter(
+            status='new')
         reserves = Reserved.objects.filter(user=request.user)
         return render(request, 'my_orders.html', {'pre_orders': pre_orders,
                                                   'reserves': reserves})
@@ -92,6 +93,8 @@ class AllOrders(ListView):
         user = CustomUser.objects.get(id=request.POST['user'])
         restaurant = Restaurant.objects.get(id=request.POST['restaurant'])
         pre_order = PreOrder.objects.get(id=request.POST['pre_order_id'])
+        pre_order.status = 'confirmed'
+        pre_order.save()
         new_reserve = Reserved.objects.create(
             user=user,
             restaurant=restaurant,

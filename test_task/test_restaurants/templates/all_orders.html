@@ -9,15 +9,19 @@
         {% for pre_order in pre_orders %}
           <form method="post">
             {% csrf_token %}
-            {{ pre_order.user.first_name }} - {{ pre_order.user.email }}
-              - {{ pre_order.user.phone }} - {{ pre_order.restaurant }}
-              <input type="hidden" name="user" value="{{ pre_order.user.id }}">
-              <input type="hidden" name="restaurant"
-                     value="{{ pre_order.restaurant.id }}">
-              <input type="hidden" name="pre_order_id"
-                     value="{{ pre_order.id }}">
+            #{{ pre_order.id }} - {{ pre_order.user.first_name }}
+            - {{ pre_order.user.email }}
+            - {{ pre_order.user.phone }} - {{ pre_order.restaurant }}
+            - {{ pre_order.status }}
+            <input type="hidden" name="user" value="{{ pre_order.user.id }}">
+            <input type="hidden" name="restaurant"
+                   value="{{ pre_order.restaurant.id }}">
+            <input type="hidden" name="pre_order_id"
+                   value="{{ pre_order.id }}">
+            {% if pre_order.status == 'new' %}
               <button type="submit" class="btn btn-sm btn-success my-2">Confirm
               </button>
+            {% endif %}
           </form>
         {% endfor %}
       {% else %}
