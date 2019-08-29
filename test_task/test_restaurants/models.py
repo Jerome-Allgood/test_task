@@ -60,9 +60,19 @@ class Restaurant(models.Model):
 
 
 class PreOrder(models.Model):
+    STATUS_CHOICES = (
+        ('new', 'New'),
+        ('confirmed', 'Confirmed')
+    )
+
     date = models.DateTimeField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES,
+                              default='planned')
+
+    def __str__(self):
+        return f'Preorder #{self.id}'
 
 
 class Reserved(models.Model):

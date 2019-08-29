@@ -15,3 +15,8 @@ class RestaurantDetailView(generics.RetrieveAPIView):
 
 class CreatePreorder(generics.CreateAPIView):
     serializer_class = serializers.PreOrderSerializer
+
+
+class CreateReserve(generics.CreateAPIView):
+    serializer_class = serializers.ReserveSerializer
+
