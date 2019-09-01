@@ -41,5 +41,6 @@ class ReserveSerializer(serializers.ModelSerializer):
             pre_order.status = 'confirmed'
             pre_order.save()
         else:
-            raise ValidationError('No available tables')
+            error = {'message': 'No available tables in this restaurant'}
+            raise serializers.ValidationError(error)
         return validated_data

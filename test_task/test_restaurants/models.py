@@ -80,7 +80,8 @@ class PreOrder(models.Model):
 
 class Reserved(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
-    preorder = models.OneToOneField(PreOrder, on_delete=models.CASCADE)
+    preorder = models.OneToOneField(PreOrder, on_delete=models.CASCADE,
+                                    related_name='pre_order')
     comment = models.TextField(max_length=1000, null=True)
 
     @property
