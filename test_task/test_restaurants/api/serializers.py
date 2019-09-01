@@ -1,5 +1,5 @@
-from django.core.exceptions import ValidationError
-from rest_framework import serializers
+from django.core.exceptions import ValidationError, PermissionDenied
+from rest_framework import serializers, request
 
 from ..models import Restaurant, PreOrder, Reserved
 
@@ -14,6 +14,17 @@ class PreOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreOrder
         fields = '__all__'
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        if validated_data['user'] != user:
+            raise PermissionDenied
+        new_preorder = PreOrder(
+            user=validated_data['user'],
+            restaurant=validated_data['restaurant']
+        )
+        new_preorder.save()
+        return validated_data
 
 
 class ReserveSerializer(serializers.ModelSerializer):
