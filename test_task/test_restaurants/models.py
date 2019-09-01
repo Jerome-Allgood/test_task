@@ -59,6 +59,10 @@ class Restaurant(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    @property
+    def reserves(self):
+        return self.preorder_set.filter(status='confirmed').count
+
 
 class PreOrder(models.Model):
     STATUS_CHOICES = (
@@ -81,7 +85,7 @@ class PreOrder(models.Model):
 class Reserved(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     preorder = models.OneToOneField(PreOrder, on_delete=models.CASCADE,
-                                    related_name='pre_order')
+                                    related_name='preorder_nest')
     comment = models.TextField(max_length=1000, null=True)
 
     @property

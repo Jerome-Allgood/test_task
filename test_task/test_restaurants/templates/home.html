@@ -51,7 +51,7 @@
               <h5 class="card-title">{{ restaurant.phone }}</h5>
               <h5 class="card-title">{{ restaurant.email }}</h5>
               <p>Pre-orders: {{ restaurant.preorder_set.count }}</p>
-              <p>Reserves: {{ restaurant.reserved_set.count }}</p>
+              <p>Reserves: {{ restaurant.reserves }}</p>
               <a class="btn btn-success" href="/restaurants/{{ restaurant.id }}"
                  role="button">More info</a>
             </div>

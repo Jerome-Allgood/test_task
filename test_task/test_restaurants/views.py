@@ -11,21 +11,17 @@ class HomeView(ListView):
     model = Restaurant
     template_name = 'home.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs) # get the default context data
-        context['reserves'] = Reserved.objects.all() # add extra field to the context
-        return context
-
 
 class RestaurantDetailView(DetailView):
     queryset = Restaurant.objects.all()
     template_name = 'restaurant_detail_view.html'
 
-    def post(self, request):
-        user = CustomUser.objects.get(id=request.user.id)
+    def post(self, request, pk):
+        user = request.user
         restaurant = Restaurant.objects.get(id=request.POST['restaurant'])
         new_order = PreOrder.objects.create(
-            user=user, restaurant=restaurant
+            user=user,
+            restaurant=restaurant
         )
         new_order.save()
         print(request.POST)
@@ -84,9 +80,10 @@ class MyOrders(ListView):
     def get(self, request, *args, **kwargs):
         pre_orders = PreOrder.objects.filter(user=request.user).filter(
             status='new')
-        reserves = Reserved.objects.filter(user=request.user)
+        reserves = Reserved.objects.filter(preorder__user=request.user)
         return render(request, 'my_orders.html', {'pre_orders': pre_orders,
-                                                  'reserves': reserves})
+                                                  'reserves': reserves
+                                                  })
 
 
 class AllOrders(ListView):
@@ -95,13 +92,18 @@ class AllOrders(ListView):
         return render(request, 'all_orders.html', {'pre_orders': pre_orders})
 
     def post(self, request):
-        pre_order = PreOrder.objects.get(id=request.POST['pre_order_id'])
-        pre_order.status = 'confirmed'
-        pre_order.save()
-        new_reserve = Reserved.objects.create(
-            preorder=pre_order
-        )
-        new_reserve.save()
+        reserves = Reserved.objects.filter(
+            preorder__restaurant=request.POST['restaurant'])
+        restaurant_tables = Restaurant.objects.get(
+            id=request.POST['restaurant']).tables
+        if reserves.count() < restaurant_tables:
+            pre_order = PreOrder.objects.get(id=request.POST['pre_order_id'])
+            pre_order.status = 'confirmed'
+            pre_order.save()
+            new_reserve = Reserved.objects.create(
+                preorder=pre_order
+            )
+            new_reserve.save()
         pre_orders = PreOrder.objects.all()
         return render(request, 'all_orders.html', {'pre_orders': pre_orders})
 

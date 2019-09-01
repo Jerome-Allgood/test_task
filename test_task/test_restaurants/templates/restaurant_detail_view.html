@@ -13,12 +13,7 @@
         {% if user.is_superuser %}
           <form method="get" action="/create-preorder/">
             <input type="hidden" name="restaurant" value="{{ object.id }}">
-            <button type="submit" class="btn btn-success">Create preorder
-            </button>
-          </form>
-          <form method="get" action="/create-reserve/">
-            <input type="hidden" name="restaurant" value="{{ object.id }}">
-            <button type="submit" class="btn btn-success my-4">Create reserve
+            <button type="submit" class="btn btn-success my-4">Create preorder
             </button>
           </form>
         {% else %}
@@ -30,6 +25,6 @@
         {% endif %}
         <a href="/" class="btn btn-success">Back</a>
       </div>
-    </div
+    </div>
   </div>
 {% endblock %}

@@ -28,8 +28,6 @@ class PreOrderSerializer(serializers.ModelSerializer):
 
 
 class ReserveSerializer(serializers.ModelSerializer):
-    # pre_order = PreOrderSerializer(read_only=True)
-
     class Meta:
         model = Reserved
         fields = (
