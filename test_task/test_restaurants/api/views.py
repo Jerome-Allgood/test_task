@@ -13,9 +13,11 @@ class RestaurantDetailView(generics.RetrieveAPIView):
     serializer_class = serializers.RestaurantSerializer
 
 
-class CreatePreorder(generics.CreateAPIView):
+class Preorders(generics.ListCreateAPIView):
+    queryset = PreOrder.objects.all()
     serializer_class = serializers.PreOrderSerializer
 
 
-class CreateReserve(generics.CreateAPIView):
+class Reserves(generics.ListCreateAPIView):
+    queryset = Reserved.objects.all()
     serializer_class = serializers.ReserveSerializer

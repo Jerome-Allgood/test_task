@@ -82,3 +82,11 @@ class Reserved(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     preorder = models.OneToOneField(PreOrder, on_delete=models.CASCADE)
     comment = models.TextField(max_length=1000, null=True)
+
+    @property
+    def restaurant(self):
+        return self.preorder.restaurant
+
+    @property
+    def user(self):
+        return self.preorder.user

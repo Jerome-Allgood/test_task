@@ -17,25 +17,29 @@ class PreOrderSerializer(serializers.ModelSerializer):
 
 
 class ReserveSerializer(serializers.ModelSerializer):
+    # pre_order = PreOrderSerializer(read_only=True)
+
     class Meta:
         model = Reserved
-        fields = '__all__'
+        fields = (
+            'id',
+            'creation_date',
+            'preorder',
+            'comment',
+        )
 
     def create(self, validated_data):
-        reserves = Reserved.objects.filter(
-            restaurant=validated_data['restaurant']).filter(
-            preorder=validated_data['preorder'])
-        if not reserves:
-            pre_order = validated_data['preorder']
-            reserve = Reserved(
-                user=validated_data['user'],
-                restaurant=validated_data['restaurant'],
-                preorder=pre_order,
+        restaurant = validated_data['preorder'].restaurant
+        reserves = Reserved.objects.filter(preorder__restaurant=restaurant)
+        if reserves.count() < restaurant.tables:
+            new_reserve = Reserved(
+                preorder=validated_data['preorder'],
                 comment=validated_data['comment']
             )
-            reserve.save()
+            new_reserve.save()
+            pre_order = validated_data['preorder']
             pre_order.status = 'confirmed'
             pre_order.save()
-            return validated_data
         else:
-            raise ValidationError('Such reserve already exist')
+            raise ValidationError('No available tables')
+        return validated_data
