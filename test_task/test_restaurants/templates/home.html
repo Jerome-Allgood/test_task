@@ -43,7 +43,7 @@
 {% block content %}
   <div class="container my-5">
     <div class="row">
-      {% for restaurant in restaurant_list %}
+      {% for restaurant in sorted_restaurants %}
         <div class="col-sm-4">
           <div class="card border-success mb-3">
             <div class="card-header text-center">{{ restaurant.name }}</div>

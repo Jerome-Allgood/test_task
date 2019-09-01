@@ -61,7 +61,11 @@ class Restaurant(models.Model):
 
     @property
     def reserves(self):
-        return self.preorder_set.filter(status='confirmed').count
+        return self.preorder_set.filter(status='confirmed').count()
+
+    @property
+    def total_order_count(self):
+        return self.preorder_set.count() + self.reserves
 
 
 class PreOrder(models.Model):

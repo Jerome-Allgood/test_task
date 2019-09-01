@@ -1,7 +1,6 @@
 from django.contrib.auth import logout, login, authenticate
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 from .forms import SignupForm, LoginForm, UserForm, RestaurantForm
 from .models import Restaurant, CustomUser, PreOrder, Reserved
@@ -10,6 +9,14 @@ from .models import Restaurant, CustomUser, PreOrder, Reserved
 class HomeView(ListView):
     model = Restaurant
     template_name = 'home.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        rest = sorted(Restaurant.objects.all(),
+                      key=lambda restaurant: restaurant.total_order_count,
+                      reverse=True)
+        context['sorted_restaurants'] = rest
+        return context
 
 
 class RestaurantDetailView(DetailView):
@@ -24,7 +31,6 @@ class RestaurantDetailView(DetailView):
             restaurant=restaurant
         )
         new_order.save()
-        print(request.POST)
         return redirect('/')
 
 
@@ -114,7 +120,6 @@ class AllReserves(ListView):
         return render(request, 'all_reserves.html', {'reserves': reserves})
 
     def post(self, request):
-        print(request.POST)
         reserve = Reserved.objects.get(id=request.POST['reserve_id'])
         reserve.delete()
         reserves = Reserved.objects.all()
