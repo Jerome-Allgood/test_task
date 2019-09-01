@@ -1,3 +1,6 @@
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+
+
 from ..models import Restaurant, PreOrder, Reserved
 from . import serializers
 from rest_framework import generics
@@ -21,3 +24,4 @@ class Preorders(generics.ListCreateAPIView):
 class Reserves(generics.ListCreateAPIView):
     queryset = Reserved.objects.all()
     serializer_class = serializers.ReserveSerializer
+    permission_classes = [IsAdminUser]
